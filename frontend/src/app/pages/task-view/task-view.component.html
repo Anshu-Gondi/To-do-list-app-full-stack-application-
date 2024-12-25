@@ -1,0 +1,79 @@
+<div class="centered-content">
+  <div class="task-manager-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <h1 class="title has-text-warning has-background-white">Lists</h1>
+
+      <div class="list-menu">
+        <a
+          class="list-menu-item"
+          *ngFor="let list of lists"
+          [routerLink]="['/lists', list._id]"
+          routerLinkActive="is-active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <p>{{ list.title }}</p>
+        </a>
+      </div>
+
+      <button class="button is-primary has-text-white" routerLink="/new-list">
+        + New List
+      </button>
+    </div>
+
+    <!-- Tasks List -->
+    <div
+      class="tasks-list-container has-background-light"
+      *ngIf="listId; else noListSelected"
+    >
+      <h1 class="title has-text-warning">Tasks</h1>
+
+      <!-- Tasks or No Tasks State -->
+      <div *ngIf="tasks && tasks.length > 0; else noTasks">
+        <!-- Task Elements -->
+        <div
+          class="task"
+          *ngFor="let task of tasks"
+          (click)="onTaskClick(task)"
+          [ngClass]="{ completed: task.completed }"
+        >
+          <p>{{ task.title }}</p>
+        </div>
+      </div>
+
+      <!-- Add Task Button -->
+      <div
+        class="add-task-container"
+        style="text-align: center; margin-top: 20px"
+      >
+        <button
+          class="button circle-add-button has-text-white is-link"
+          [routerLink]="['/lists', listId, 'new-task']"
+        >
+          <img
+            src="/plus-icon.svg"
+            alt="Add Icon"
+            style="width: 20px; height: 20px"
+          />
+        </button>
+      </div>
+    </div>
+
+    <!-- No Tasks State -->
+    <ng-template #noTasks>
+      <div
+        class="no-tasks-container"
+        style="text-align: center; margin: 20px 0"
+      >
+        <p class="subtitle has-text-grey">No tasks available</p>
+      </div>
+    </ng-template>
+
+    <!-- No List Selected State -->
+    <ng-template #noListSelected>
+      <div class="tasks-list-container has-background-light">
+        <h2 class="title has-text-grey has-text-centered">No list selected</h2>
+      </div>
+    </ng-template>
+  </div>
+</div>

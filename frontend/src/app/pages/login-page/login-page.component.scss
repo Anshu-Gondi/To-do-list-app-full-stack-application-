@@ -1,0 +1,14 @@
+@import '../../../styles.scss';
+
+.login-box {
+  padding: 35px;
+  background: rgb(4, 205, 255);
+  border-radius: 5px;
+}
+
+.login-box .button:hover {
+  background-color: rgb(3, 180, 230); /* Slightly darker blue on hover */
+  transform: translateY(-2px); /* Lift effect */
+}
+
+
