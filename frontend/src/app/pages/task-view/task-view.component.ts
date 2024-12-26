@@ -3,6 +3,7 @@ import { TaskService } from '../../task.service';
 import {
   ActivatedRoute,
   Params,
+  Router,
   RouterLink,
   RouterModule,
 } from '@angular/router';
@@ -23,7 +24,8 @@ export class TaskViewComponent implements OnInit {
 
   constructor(
     private taskService: TaskService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -86,13 +88,14 @@ export class TaskViewComponent implements OnInit {
       if (confirmation) {
         this.taskService.deleteList(this.listId).subscribe(
           () => {
-            // Remove the list from the local `lists` array
             this.lists = this.lists.filter((list) => list._id !== this.listId);
-
-            // Reset the view
             this.listId = null;
             this.tasks = [];
             alert('List deleted successfully.');
+
+            this.router.navigate(['/lists']).then(() => {
+              console.log('Navigated to /lists');
+            });
           },
           (error) => {
             console.error('Error deleting list:', error);

@@ -101,6 +101,26 @@ export class TaskService {
     );
   }
 
+  updateList(listId: string, title: string): Observable<List> {
+    const token = this.authService.getAccessToken(); // Get the access token from auth service
+    if (!token) {
+      throw new Error('Access token is missing');
+    }
+
+    // Use the WebRequestService to send a PATCH request
+    return this.webRequestService.patch<List>(
+      `lists/${listId}`,
+      { title },
+      {
+        Authorization: `Bearer ${token}`,
+      }
+    ).pipe(
+      catchError((error) => {
+        console.error('Error updating list:', error);
+        return throwError(() => error);
+      })
+    );
+  }
 
   complete(task: Task): Observable<void> {
     const token = this.authService.getAccessToken(); // Get the access token from auth service

@@ -43,7 +43,9 @@
           </div>
           <div class="dropdown-menu" id="dropdown-menu4" role="menu">
             <div class="dropdown-content">
-              <a href="#" class="dropdown-item"> Edit </a>
+              <a class="dropdown-item" [routerLink]="['/edit-list', listId]">
+                Edit
+              </a>
               <a
                 href="#"
                 (click)="onDeleteListClick()"
