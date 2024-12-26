@@ -51,6 +51,15 @@
   flex-grow: 1;
   border-top-right-radius: 8px;
   border-bottom-right-radius: 8px;
+
+  .top-bar{
+    display: flex;
+    margin-bottom: 20px;
+    .title{
+      flex-grow: 1;
+      margin: 0;
+    }
+  }
 }
 
 .task {

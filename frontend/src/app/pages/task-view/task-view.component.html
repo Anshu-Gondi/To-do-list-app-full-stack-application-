@@ -26,7 +26,35 @@
       class="tasks-list-container has-background-light"
       *ngIf="listId; else noListSelected"
     >
-      <h1 class="title has-text-warning">Tasks</h1>
+      <div class="top-bar">
+        <h1 class="title has-text-warning">Tasks</h1>
+        <!-- Dropdown menu only appears when a list is selected -->
+        <div class="dropdown is-hoverable is-right" *ngIf="listId">
+          <div class="dropdown-trigger">
+            <button
+              class="button"
+              aria-haspopup="true"
+              aria-controls="dropdown-menu4"
+            >
+              <span class="icon is-small">
+                <i class="fas fa-cog" aria-hidden="true"></i>
+              </span>
+            </button>
+          </div>
+          <div class="dropdown-menu" id="dropdown-menu4" role="menu">
+            <div class="dropdown-content">
+              <a href="#" class="dropdown-item"> Edit </a>
+              <a
+                href="#"
+                (click)="onDeleteListClick()"
+                class="dropdown-item has-text-danger"
+              >
+                Delete
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <!-- Tasks or No Tasks State -->
       <div *ngIf="tasks && tasks.length > 0; else noTasks">

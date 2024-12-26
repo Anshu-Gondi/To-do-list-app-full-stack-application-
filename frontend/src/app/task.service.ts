@@ -81,6 +81,27 @@ export class TaskService {
     );
   }
 
+  deleteList(listId: string): Observable<void> {
+    const token = this.authService.getAccessToken(); // Get the access token from auth service
+    if (!token) {
+      throw new Error('Access token is missing');
+    }
+
+    // Use the WebRequestService to make the DELETE request with headers
+    return this.webRequestService.delete(
+      `lists/${listId}`,
+      {
+        Authorization: `Bearer ${token}`,
+      }
+    ).pipe(
+      catchError((error) => {
+        console.error('Error deleting list:', error);
+        return throwError(() => error);
+      })
+    );
+  }
+
+
   complete(task: Task): Observable<void> {
     const token = this.authService.getAccessToken(); // Get the access token from auth service
     if (!token) {

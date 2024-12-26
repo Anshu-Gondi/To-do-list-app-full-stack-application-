@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { TaskService } from '../../task.service';
-import { ActivatedRoute, Params, RouterLink, RouterModule } from '@angular/router';
+import {
+  ActivatedRoute,
+  Params,
+  RouterLink,
+  RouterModule,
+} from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { List } from '../../models/list.model';
 import { Task } from '../../models/task.model';
@@ -45,7 +50,9 @@ export class TaskViewComponent implements OnInit {
       },
       (error) => {
         if (error.status === 401) {
-          console.error('Unauthorized: Access token might be invalid or expired.');
+          console.error(
+            'Unauthorized: Access token might be invalid or expired.'
+          );
         } else {
           console.error('Error fetching lists:', error);
         }
@@ -66,8 +73,35 @@ export class TaskViewComponent implements OnInit {
 
   onTaskClick(task: Task): void {
     // We want to set the task to complete
-    this.taskService.complete(task).subscribe(()=>{
+    this.taskService.complete(task).subscribe(() => {
       task.completed = !task.completed;
-    })
+    });
+  }
+
+  onDeleteListClick(): void {
+    if (this.listId) {
+      const confirmation = confirm(
+        'Are you sure you want to delete this list and all its tasks?'
+      );
+      if (confirmation) {
+        this.taskService.deleteList(this.listId).subscribe(
+          () => {
+            // Remove the list from the local `lists` array
+            this.lists = this.lists.filter((list) => list._id !== this.listId);
+
+            // Reset the view
+            this.listId = null;
+            this.tasks = [];
+            alert('List deleted successfully.');
+          },
+          (error) => {
+            console.error('Error deleting list:', error);
+            alert('Failed to delete the list. Please try again.');
+          }
+        );
+      }
+    } else {
+      alert('No list selected to delete.');
+    }
   }
 }
