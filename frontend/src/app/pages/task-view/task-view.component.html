@@ -34,7 +34,7 @@
               <a class="dropdown-item" [routerLink]="['/edit-list', listId]">
                 Edit
               </a>
-              <a href="#" (click)="onDeleteListClick()" class="dropdown-item has-text-danger">
+              <a (click)="onDeleteListClick()" class="dropdown-item has-text-danger">
                 Delete
               </a>
             </div>
@@ -50,12 +50,12 @@
           <div class="task-text" style="display: flex; align-items: center; justify-content: space-between;">
             <p>{{ task.title }}</p>
             <div class="task-buttons">
-              <button class="button">
+              <button class="button" (click)="onTaskEditClick(task)">
                 <div class="icon">
                   <i class="fas fa-edit"></i>
                 </div>
               </button>
-              <button class="button is-danger">
+              <button class="button is-danger" (click)="givem(task._id)">
                 <div class="icon">
                   <i class="fas fa-trash"></i>
                 </div>

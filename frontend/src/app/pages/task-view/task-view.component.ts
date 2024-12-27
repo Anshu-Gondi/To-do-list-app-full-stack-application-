@@ -93,9 +93,8 @@ export class TaskViewComponent implements OnInit {
             this.tasks = [];
             alert('List deleted successfully.');
 
-            this.router.navigate(['/lists']).then(() => {
-              console.log('Navigated to /lists');
-            });
+            // Navigate to the home route or a specific fallback route after deletion
+            this.router.navigate(['/lists']);
           },
           (error) => {
             console.error('Error deleting list:', error);
@@ -106,5 +105,34 @@ export class TaskViewComponent implements OnInit {
     } else {
       alert('No list selected to delete.');
     }
+  }
+
+  givem(taskId: string): void {
+    if (!taskId) {
+      alert('Task ID is required to delete the task.');
+      return;
+    }
+
+    const confirmation = confirm('Are you sure you want to delete this task?');
+    if (confirmation) {
+      this.taskService.deleteTask(this.listId!, taskId).subscribe(
+        () => {
+          this.tasks = this.tasks.filter((task) => task._id !== taskId);
+          alert('Task deleted successfully.');
+        },
+        (error) => {
+          console.error('Error deleting task:', error);
+          alert('Failed to delete the task. Please try again.');
+        }
+      );
+    }
+  }
+
+  onTaskEditClick(task: Task): void {
+    if (!task._id || !task._listId) {
+      console.error('Task ID or List ID is missing');
+      return;
+    }
+    this.router.navigate([`/lists/${task._listId}/tasks/${task._id}/edit`]);
   }
 }
