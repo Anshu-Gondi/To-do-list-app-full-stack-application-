@@ -5,13 +5,8 @@
       <h1 class="title has-text-warning has-background-white">Lists</h1>
 
       <div class="list-menu">
-        <a
-          class="list-menu-item"
-          *ngFor="let list of lists"
-          [routerLink]="['/lists', list._id]"
-          routerLinkActive="is-active"
-          [routerLinkActiveOptions]="{ exact: true }"
-        >
+        <a class="list-menu-item" *ngFor="let list of lists" [routerLink]="['/lists', list._id]"
+          routerLinkActive="is-active" [routerLinkActiveOptions]="{ exact: true }">
           <p>{{ list.title }}</p>
         </a>
       </div>
@@ -22,20 +17,13 @@
     </div>
 
     <!-- Tasks List -->
-    <div
-      class="tasks-list-container has-background-light"
-      *ngIf="listId; else noListSelected"
-    >
+    <div class="tasks-list-container has-background-light" *ngIf="listId; else noListSelected">
       <div class="top-bar">
         <h1 class="title has-text-warning">Tasks</h1>
         <!-- Dropdown menu only appears when a list is selected -->
         <div class="dropdown is-hoverable is-right" *ngIf="listId">
           <div class="dropdown-trigger">
-            <button
-              class="button"
-              aria-haspopup="true"
-              aria-controls="dropdown-menu4"
-            >
+            <button class="button" aria-haspopup="true" aria-controls="dropdown-menu4">
               <span class="icon is-small">
                 <i class="fas fa-cog" aria-hidden="true"></i>
               </span>
@@ -46,11 +34,7 @@
               <a class="dropdown-item" [routerLink]="['/edit-list', listId]">
                 Edit
               </a>
-              <a
-                href="#"
-                (click)="onDeleteListClick()"
-                class="dropdown-item has-text-danger"
-              >
+              <a href="#" (click)="onDeleteListClick()" class="dropdown-item has-text-danger">
                 Delete
               </a>
             </div>
@@ -61,40 +45,37 @@
       <!-- Tasks or No Tasks State -->
       <div *ngIf="tasks && tasks.length > 0; else noTasks">
         <!-- Task Elements -->
-        <div
-          class="task"
-          *ngFor="let task of tasks"
-          (click)="onTaskClick(task)"
-          [ngClass]="{ completed: task.completed }"
-        >
-          <p>{{ task.title }}</p>
+        <div class="task" *ngFor="let task of tasks" (click)="onTaskClick(task)"
+          [ngClass]="{ completed: task.completed }">
+          <div class="task-text" style="display: flex; align-items: center; justify-content: space-between;">
+            <p>{{ task.title }}</p>
+            <div class="task-buttons">
+              <button class="button">
+                <div class="icon">
+                  <i class="fas fa-edit"></i>
+                </div>
+              </button>
+              <button class="button is-danger">
+                <div class="icon">
+                  <i class="fas fa-trash"></i>
+                </div>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
       <!-- Add Task Button -->
-      <div
-        class="add-task-container"
-        style="text-align: center; margin-top: 20px"
-      >
-        <button
-          class="button circle-add-button has-text-white is-link"
-          [routerLink]="['/lists', listId, 'new-task']"
-        >
-          <img
-            src="/plus-icon.svg"
-            alt="Add Icon"
-            style="width: 20px; height: 20px"
-          />
+      <div class="add-task-container" style="text-align: center; margin-top: 20px">
+        <button class="button circle-add-button has-text-white is-link" [routerLink]="['/lists', listId, 'new-task']">
+          <img src="/plus-icon.svg" alt="Add Icon" style="width: 20px; height: 20px" />
         </button>
       </div>
     </div>
 
     <!-- No Tasks State -->
     <ng-template #noTasks>
-      <div
-        class="no-tasks-container"
-        style="text-align: center; margin: 20px 0"
-      >
+      <div class="no-tasks-container" style="text-align: center; margin: 20px 0">
         <p class="subtitle has-text-grey">No tasks available</p>
       </div>
     </ng-template>
