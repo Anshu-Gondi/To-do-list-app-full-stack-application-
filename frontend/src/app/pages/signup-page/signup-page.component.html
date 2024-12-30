@@ -1,35 +1,58 @@
 <div class="centered-content">
-  <div class="signup-box">
-    <h1 class="title has-text-black is-link mb-2">Sign up</h1>
+  <div class="signup-box box">
+    <h1 class="title has-text-black is-link mb-4">Sign Up</h1>
     <div class="field">
-      <p class="control has-icons-left has-icons-right">
-        <input #emailInput class="input has-background-light" type="email" placeholder="Email" />
+      <p class="control has-icons-left">
+        <input
+          #emailInput
+          class="input has-background-light is-medium"
+          type="email"
+          placeholder="Email"
+        />
         <span class="icon is-small is-left">
           <i class="fas fa-envelope"></i>
-        </span>
-        <span class="icon is-small is-right">
-          <i class="fas fa-check"></i>
         </span>
       </p>
     </div>
     <div class="field">
       <p class="control has-icons-left">
-        <input #pwInput class="input has-background-light" type="password" placeholder="Password" />
+        <input
+          #pwInput
+          class="input has-background-light is-medium"
+          type="password"
+          placeholder="Password"
+        />
         <span class="icon is-small is-left">
           <i class="fas fa-lock"></i>
         </span>
       </p>
     </div>
-    <div class="field is-pulled-right">
-      <p class="control">
-        <button class="button is-primary-light has-text-black m-2"
-          (click)="onSignupButtonClicked(emailInput.value, pwInput.value)">Sign up</button>
-      </p>
+    <div class="field has-text-right">
+      <button
+        class="button is-primary is-medium has-text-white"
+        (click)="onSignupButtonClicked(emailInput.value, pwInput.value)"
+      >
+        Sign Up
+      </button>
     </div>
     <div class="field">
-      <p class="control">
-        <button class="button is-link is-light m-2" (click)="navigateToLogin()">Already have an account? Login</button>
-      </p>
+      <button
+        class="button is-link is-light is-medium is-fullwidth mt-2"
+        (click)="navigateToLogin()"
+      >
+        Already have an account? Log in
+      </button>
+    </div>
+    <div class="field">
+      <button
+        class="button is-link is-light is-medium is-fullwidth mt-2"
+        (click)="signInWithGoogle()"
+      >
+        <span class="icon">
+          <i class="fab fa-google"></i>
+        </span>
+        <span>Continue with Google</span>
+      </button>
     </div>
   </div>
 </div>

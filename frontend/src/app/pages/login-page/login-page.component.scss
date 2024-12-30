@@ -1,14 +1,78 @@
 @import '../../../styles.scss';
 
+.centered-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; // Full viewport height
+  background: linear-gradient(to right, #4facfe, #00f2fe); // Gradient background
+  padding: 20px;
+}
+
 .login-box {
-  padding: 35px;
-  background: rgb(4, 205, 255);
+  padding: 40px;
+  max-width: 400px;
+  width: 100%;
+  background-color: #ffffff; // White background for a clean design
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); // Light shadow for elevation
+}
+
+.title {
+  font-family: 'Nunito', sans-serif;
+  font-size: 2rem;
+  color: #005b96; // Dark blue for title color
+  text-align: center;
+}
+
+.input {
   border-radius: 5px;
+  font-size: 1rem;
+  box-shadow: none;
+  border: 1px solid #ddd; // Soft border
 }
 
-.login-box .button:hover {
-  background-color: rgb(3, 180, 230); /* Slightly darker blue on hover */
-  transform: translateY(-2px); /* Lift effect */
+.button {
+  border-radius: 5px;
+  font-weight: bold;
 }
 
+button.is-primary {
+  background-color: #00bfff;
+  border: none;
+}
+
+button.is-link.is-light {
+  color: #005b96;
+  background-color: #f0f4f8;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+button.is-link.is-light:hover {
+  background-color: #d3e8ff; // Light blue hover effect
+}
+
+button.is-fullwidth {
+  width: 100%;
+}
+
+.icon {
+  margin-right: 5px;
+}
+
+@media screen and (max-width: 768px) {
+  .login-box {
+    padding: 20px;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .input,
+  .button {
+    font-size: 1rem;
+  }
+}
 

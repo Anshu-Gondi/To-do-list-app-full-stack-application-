@@ -402,7 +402,12 @@ app.delete("/lists/:listId/tasks/:taskId", authenicate, async (req, res) => {
   }
 });
 
+const { OAuth2Client } = require('google-auth-library');
+// Load the Client ID from the environment variable
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
 // USER ROUTES
+
 /**
  * POST /users
  * Purpose: Sign Up
@@ -485,10 +490,9 @@ app.post('/users/login', (req, res) => {
 
 /**
  * GET /users/me/access-token
- * Purpose: generates and return an access token
+ * Purpose: Generate and return an access token
  */
 app.get('/users/me/access-token', VerifySession, (req, res) => {
-  // we know that the user/caller is quthenticated and we have the user_id and user object available to us
   req.userObject
     .generateAccessAuthToken()
     .then((accessToken) => {
@@ -497,7 +501,60 @@ app.get('/users/me/access-token', VerifySession, (req, res) => {
     .catch((e) => {
       res.status(400).send({ error: 'Failed to generate access token', details: e });
     });
-})
+});
+
+/**
+ * POST /users/google-signin
+ * Purpose: Google Sign-In
+ */
+app.post('/users/google-signin', async (req, res) => {
+  const { idToken } = req.body;
+
+  if (!idToken) {
+    return res.status(400).send({ error: "Google ID token is required" });
+  }
+
+  try {
+    // Verify the ID token using Google's library
+    const ticket = await client.verifyIdToken({
+      idToken,
+      audience: process.env.GOOGLE_CLIENT_ID, // Replace with your actual Google Client ID
+    });
+
+    const payload = ticket.getPayload();
+    const email = payload?.email;
+
+    if (!email) {
+      return res.status(400).send({ error: "Google ID token is invalid" });
+    }
+
+    let user = await User.findOne({ email });
+
+    if (!user) {
+      // Create a new user if it doesn't exist
+      user = new User({ email, name: payload.name });
+      await user.save();
+    }
+
+    // Generate tokens
+    const refreshToken = await user.createSession();
+    const accessToken = await user.generateAccessAuthToken();
+
+    res
+      .header('x-refresh-token', refreshToken)
+      .header('x-access-token', accessToken)
+      .send({
+        _id: user._id,
+        email: user.email,
+        name: user.name,
+        accessToken,
+        refreshToken,
+      });
+  } catch (e) {
+    console.error("Google Sign-In Error:", e);
+    res.status(400).send({ error: "Google Sign-In failed", details: e });
+  }
+});
 
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);

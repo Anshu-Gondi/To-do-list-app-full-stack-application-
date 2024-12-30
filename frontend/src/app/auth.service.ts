@@ -11,6 +11,19 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
+  // Method for Google Sign-In
+  googleSignIn(idToken: string): Observable<any> {
+    return this.http.post<{ accessToken: string; refreshToken: string }>(
+      'http://localhost:3000/users/google-signin',
+      { idToken }
+    ).pipe(
+      tap((response) => {
+        this.setAccessToken(response.accessToken);
+        localStorage.setItem('refreshToken', response.refreshToken);
+      })
+    );
+  }
+
   // AuthService signup method
   signup(email: string, password: string): Observable<any> {
     const signupPayload = { email, password };
